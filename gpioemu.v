@@ -1,56 +1,52 @@
-//Autor: 			Jakub Pasierb
-//na podstawie materiałów dostarczonych przez 
-//prowadzącego: 	Aleksander Pruszkowski
-
 /* verilator lint_off UNUSED */
 /* verilator lint_off MULTIDRIVEN */
 
-module gpioemu(n_reset,                   //magistrala z CPU
+module gpioemu(n_reset,                   // bus from CPU
     saddress[15:0], srd, swr, 
     sdata_in[31:0], sdata_out[31:0], 
-    gpio_in[31:0], gpio_latch,          //styk z GPIO - in
-    gpio_out[31:0],                     //styk z GPIO = out
-    clk,                                //sygnaly opcjonalne - zegar 1KHz
-    gpio_in_s_insp[31:0]);              //sygnaly testowe
+    gpio_in[31:0], gpio_latch,          // GPIO contact - in
+    gpio_out[31:0],                     // GPIO contact - out
+    clk,                                // optional signals - 1KHz clock
+	gpio_in_s_insp[31:0]);              // test signals
 
     input           clk;
     input           n_reset;
-    input           gpio_latch;     //zapis danych na gpio_in
-    input           srd;            //odczyt przez CPU z mag. danych
-    input           swr;            //zapis przez CPU do mag. danych 
+    input           gpio_latch;     // writing data to gpio_in
+    input           srd;            // reading by CPU from data bus
+    input           swr;            // writing by CPU to data bus 
     
-    input [15:0]    saddress;       //magistrala - adres
-    input [31:0]    sdata_in;       //magistrala wejsciowa CPU
-	input [31:0]    gpio_in;        //dane z peryferii wejscie do modulu 
+	input [15:0]    saddress;       // bus - address
+	input [31:0]    sdata_in;       // CPU input bus
+	input [31:0]    gpio_in;        // data from the peripherals input to the module 
 	
-    output[31:0]    sdata_out;      //magistrala wyjsciowa z CPU
-	output[31:0]    gpio_out;       //dane wyjsciowe do peryferii (laczone np.: z LED'ami)
-    output[31:0]    gpio_in_s_insp; //debuging
+	output[31:0]    sdata_out;      // CPU output bus
+	output[31:0]    gpio_out;       // output data to peripherals (connected e.g. to LEDs)
+	output[31:0]    gpio_in_s_insp; // debugging
 	
-    reg [31:0]      sdata_out_s;      //stan magistrali danych - wyjscie
-    reg [31:0]      gpio_in_s;      //stan peryferii wyjsciowych (do polaczenia z np.: klawiszami)
-    reg [31:0]      gpio_out_s;     //stan peryferii wejsciowych (stan wyjsc - ale nie laczony z np.: LED'ami)
+	reg [31:0]      sdata_out_s;    // data bus status - output
+	reg [31:0]      gpio_in_s;      // output peripherals status (for connection with e.g. keys)
+	reg [31:0]      gpio_out_s;     // input peripherals status (output status - but not connected with e.g. LEDs)
 	
 
-//Sygnały dodane na potrzeby zadania
+// Signals added for the task
 	reg [31:0] S;
 	reg [31:0] A1;
 	reg [31:0] A2;
 	reg [31:0] W;
 
-//stworzenie 3 stanow automatu
+// Creation of 3 machine states
 	reg [3:0] state;
 	localparam [3:0]	idle 	= 	'h0,
 						check 	= 	'h2,
 						dec 	=   'h3,
 						res		=	'h4;
 	
-//wystawianie wartosci na wyjscia
+// Outputting values
 	assign sdata_out = sdata_out_s;
 	assign gpio_out = {24'h0,gpio_out_s[7:0]};
 	assign gpio_in_s_insp = gpio_in_s;
 
-//Zerowanie wszystkich sygnałów na reset
+// Zeroing all signals to reset
 	always @(negedge n_reset)
 			begin           
 				state			<= idle;
@@ -63,7 +59,7 @@ module gpioemu(n_reset,                   //magistrala z CPU
 				W				<= 32'h0;			
 			end 
 	
-//sprawdzanie adresów, modyfikacja wartosci oraz rozpoczecie pracy algorytmu
+// Checking addresses, modifying values ​​and starting the algorithm
 	always@(posedge srd) begin
 		if(saddress == 16'hd8) sdata_out_s <= A1;
 		if(saddress == 16'hdc) sdata_out_s <= A2;
@@ -81,7 +77,7 @@ module gpioemu(n_reset,                   //magistrala z CPU
 		end
 	end
 	
-// Implementacja algorytmu Euklidesa oraz logiki stanów
+// Implementation of the Euclidean algorithm and state logic
 	always@(posedge clk) begin
 		case(state)
 			idle : 	;
