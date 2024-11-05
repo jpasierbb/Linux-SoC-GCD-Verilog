@@ -7,7 +7,7 @@ module gpioemu(n_reset,                   // bus from CPU
     gpio_in[31:0], gpio_latch,          // GPIO contact - in
     gpio_out[31:0],                     // GPIO contact - out
     clk,                                // optional signals - 1KHz clock
-	gpio_in_s_insp[31:0]);              // test signals
+    gpio_in_s_insp[31:0]);              // test signals
 
     input           clk;
     input           n_reset;
@@ -15,17 +15,17 @@ module gpioemu(n_reset,                   // bus from CPU
     input           srd;            // reading by CPU from data bus
     input           swr;            // writing by CPU to data bus 
     
-	input [15:0]    saddress;       // bus - address
-	input [31:0]    sdata_in;       // CPU input bus
+    input [15:0]    saddress;       // bus - address
+    input [31:0]    sdata_in;       // CPU input bus
 	input [31:0]    gpio_in;        // data from the peripherals input to the module 
 	
-	output[31:0]    sdata_out;      // CPU output bus
+    output[31:0]    sdata_out;      // CPU output bus
 	output[31:0]    gpio_out;       // output data to peripherals (connected e.g. to LEDs)
-	output[31:0]    gpio_in_s_insp; // debugging
+    output[31:0]    gpio_in_s_insp; // debugging
 	
-	reg [31:0]      sdata_out_s;    // data bus status - output
-	reg [31:0]      gpio_in_s;      // output peripherals status (for connection with e.g. keys)
-	reg [31:0]      gpio_out_s;     // input peripherals status (output status - but not connected with e.g. LEDs)
+    reg [31:0]      sdata_out_s;    // data bus status - output
+    reg [31:0]      gpio_in_s;      // output peripherals status (for connection with e.g. keys)
+    reg [31:0]      gpio_out_s;     // input peripherals status (output status - but not connected with e.g. LEDs)
 	
 
 // Signals added for the task
