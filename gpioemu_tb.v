@@ -26,12 +26,12 @@ end
 end
 
 initial begin
-//reset
+// Reset
 	# 1 n_reset = 1;
 	# 5 n_reset = 0;
 	# 5 n_reset = 1;
 
-//reakcja modulu na podanie "zlych adresow"
+// module reaction to entering "bad addresses"
 	# 5 sdata_in = 32'd100;
 	# 5 saddress = 16'hff;
 	# 5 swr = 1;
@@ -47,7 +47,7 @@ initial begin
 	# 5 srd = 1;
 	# 5 srd = 0;
 
-//Liczenie GCD dla A1 = 100, A2 = 25
+// GCD calculation for A1 = 100, A2 = 25
 	# 5 sdata_in = 32'd100;
 	# 5 saddress = 16'hd8;
 	# 5 swr = 1;
@@ -66,7 +66,7 @@ initial begin
 	# 5 srd = 1;
 	# 5 srd = 0;
 
-//Liczenie GCD dla A1 = 56, A2 = 42
+// GCD calculation for A1 = 56, A2 = 42
 	# 5 sdata_in = 32'd56;
 	# 5 saddress = 16'hd8;
 	# 5 swr = 1;
@@ -85,7 +85,7 @@ initial begin
 	# 5 srd = 1;
 	# 5 srd = 0;
 
-//Liczenie GCD dla A1 = 314080416, A2 = 7966496
+// GCD calculation for A1 = 314080416, A2 = 7966496
 	# 5 sdata_in = 32'd314080416;
 	# 5 saddress = 16'hd8;
 	# 5 swr = 1;
@@ -104,7 +104,7 @@ initial begin
 	# 5 srd = 1;
 	# 5 srd = 0;
 
-//Liczenie GCD dla A1 =45296490 , A2 = 24826148
+// GCD calculation for A1 =45296490 , A2 = 24826148
 	# 50 sdata_in = 32'd45296490;
 	# 5 saddress = 16'hd8;
 	# 5 swr = 1;
@@ -123,7 +123,7 @@ initial begin
 	# 5 srd = 1;
 	# 5 srd = 0;
 
-//Liczenie GCD dla A1 =4294967295 , A2 = 4294967295
+// GCD calculation for A1 =4294967295 , A2 = 4294967295
 	# 50 sdata_in = 32'd4294967295;
 	# 5 saddress = 16'hd8;
 	# 5 swr = 1;
